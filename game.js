@@ -4,6 +4,8 @@ const up= document.querySelector('.up')
 const down= document.querySelector('.down')
 const left= document.querySelector('.left')
 const right= document.querySelector('.right')
+const cora= document.querySelector('.cora')
+const time= document.querySelector('.time')
 
 window.addEventListener('load',canvasResize)
 window.addEventListener('resize', canvasResize)
@@ -19,6 +21,7 @@ const giftPos={
 let lives=3
 let enemyPos=[]
 let level=0
+let timeStart
  function canvasResize(){
 
     if(window.innerHeight > window.innerWidth){
@@ -46,9 +49,17 @@ let level=0
         return;
     }
 
+    if(!timeStart){
+        timeStart= Date.now()
+        timeInterval= setInterval(showTime,100)
+    }
+    
+    
     const mapRows=map.trim().split('\n')
     const mapRowCols=mapRows.map(row=> row.trim().split(''))
 
+
+    heart()
     //forEach recorre cada elemento de nuestro array y nosotros le damos una función
     mapRowCols.forEach((row, rowI) => {
         row.forEach((col,colI)=>{
@@ -122,19 +133,35 @@ let level=0
         if(lives <=0){
             level=0
             lives=3
-
+            timeStart= undefined
         }
         playerPos.x= undefined
         playerPos.y= undefined
         startGame()
     }
 
+    function heart(){
+        //Array es un proto, y crea un arreglo de acuerdo al parametro
+        //que le metamos, en este caso un arreglo de3 porque son 3 vidas
+        //y lo llenamos con el método fill
+        const arrayHeart=Array(lives).fill(emojis['HEART'])
+        console.log(arrayHeart);
+        //Esto es para quitar las comas que hay entre elemento
+        cora.innerHTML= arrayHeart.join(' ')
+
+        //Solución más limpia
+        //cora.innerHTML= emojis['HEART'].repeat(lives)
+    }
+    function showTime(){
+        time.innerHTML= Date.now()-timeStart
+    }
     function lvlUp(){
         level++;
         startGame()
     }
     function finishGame(){
-
+        //detiene el proceso, se le asigna una variable que tiene el timer
+        clearInterval(timeInterval)
         console.log('finishhh')
 
     }
