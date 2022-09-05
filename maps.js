@@ -51,3 +51,4 @@ const emojis = {
     XX-----OXX
     XXXXXXXXXX
   `);
+  console.log(maps)
