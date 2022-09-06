@@ -6,6 +6,8 @@ const left= document.querySelector('.left')
 const right= document.querySelector('.right')
 const cora= document.querySelector('.cora')
 const time= document.querySelector('.time')
+const record= document.querySelector('.record')
+const result= document.querySelector('.result')
 
 window.addEventListener('load',canvasResize)
 window.addEventListener('resize', canvasResize)
@@ -164,6 +166,24 @@ let timeStart
         clearInterval(timeInterval)
         console.log('finishhh')
 
+        const resultTime= localStorage.getItem('result_time')
+        const playerTime= Date.now()- timeStart
+
+        if(resultTime){
+            if(resultTime >= playerTime){
+                localStorage.setItem('result_time',playerTime)
+                result.innerHTML="Superaste el record!"
+            }else{
+                result.innerHTML="Mejor suerte a la próxima!"
+                
+            }
+            
+        }else{
+            localStorage.setItem('result_time',playerTime)
+            result.innerHTML="Primera vez aquí eh"
+        }
+        console.log({resultTime,playerTime})
+        
     }
  window.addEventListener('keydown',moveByKeys)
  up.addEventListener('click',moveUp)
